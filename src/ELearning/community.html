@@ -9,14 +9,16 @@
     <link rel="stylesheet" href="https://cdn.bootcss.com/jquery-weui/1.2.0/css/jquery-weui.min.css">
     <link rel="stylesheet" href="assets/css/reset.css"/>
     <link rel="stylesheet" href="assets/css/global.css"/>
-    <script src="assets/js/communityLode.js"></script>
+    <script src="assets/js/jquery.js"></script>
+    <script src="assets/js/jquery-3.4.1.min.js"></script>
+
 </head>
-<body style="background-color: #f4f4f4;" onload="initPost()">
+<body style="background-color: #f4f4f4;" >
     <div class="inHead" >
-            <div class="inHead_inner center">
-                <a href=""><img src="assets/images/communityImage/logo.png" alt="" class="indexPic1"/></a>
+            <div class="inHead_inner center" >
+                <a href=""><img onclick="queryTitle()" src="assets/images/communityImage/logo.png" alt="" class="indexPic1"/></a>
                 <div class="indexSearch">
-                    <input  type="text" placeholder="请输入关键词......" name="search"/>
+                    <input  type="text" placeholder="请输入关键词......" name="search" class="layui-input"/>
                     <input type="button" name="indexBtn"/>
                 </div>
             </div>
@@ -24,29 +26,29 @@
     <div class="indexTable">
         <ul >
             <li id="hot" class="on">热门</li>
-            <li  id="latest">最新</li>
-            <li id="follow">关注</li>
+            <!--<li  id="latest">最新</li>
+            <li id="follow">关注</li>-->
         </ul>
     </div>
-    <div style="width: 100%;height: 81px"></div>
+    <!--<div style="width: 100%;height: 81px"></div>
     <div class="indexTable_con" style="display: block"  >
-        <div class="indexTable_son" id="postDiv">
-<!--            <a href="">-->
+        <div class="indexTable_son" id="posts">
+&lt;!&ndash;            <a href="">&ndash;&gt;
                 <p class="indexTable_sonHead">我是谁我在哪我在干啥
-                    <!--<div class="inHeadPic">
+                    &lt;!&ndash;<div class="inHeadPic">
                         <img src="assets/images/communityImage/cs.png" alt=""/>
                     </div>
                     <p id="author"><a href="ta.html">坦诚相待</a></p>
                     <span onclick="">精华</span>&lt;!&ndash;没加它和置顶函数&ndash;&gt;
-                    <span onclick="">置顶</span>-->
+                    <span onclick="">置顶</span>&ndash;&gt;
                 </p>
-<!--            </a>-->
-<!--            <a href="">-->
+&lt;!&ndash;            </a>&ndash;&gt;
+&lt;!&ndash;            <a href="">&ndash;&gt;
                 <div class="indexTableCon">
                     <h1 id="localTitle">广州4月19号举行限外听证会！2018年是否会实行车牌限行？</h1>
                     <p id="mBody">拍王深耕广州竞价3年，最近听到很多广州即将限行的消息。作为一个一线城市，广州是唯一一个没有限行的城市。所以拍王预测，2018年，所以拍王预测，2018年广州限行的正式方案应该会出炉...</p>
                 </div>
-<!--            </a>-->
+&lt;!&ndash;            </a>&ndash;&gt;
             <ul class="indexTable_conFoot clearfix">
                 <li id="heat">热度<span>77</span></li>
                 <li id="respondList"><a href="lt_content.html">评论</a><span>num</span></li>
@@ -55,7 +57,35 @@
             </ul>
 
     </div>
+    </div>-->
+    <div style="width: 100%;height: 81px"></div>
+    <div class="indexTable_con" style="display: block">
+        <div class="indexTable_son" id="posts"></div>
     </div>
+   <!--测测测测测试
+    <script>
+        var postList={};
+        postList.postId="张馨";
+        postList.headPic="a";
+        postList.author="张馨";
+        postList.localTitle="为什么张馨这么傻";
+        postList.pubTime="00:00";
+        postList.latestTime="00:00";
+        postList.heat=200;
+        $("#posts").append($("<div class='indexTable_son' style='display: block'>" + postList.postId
+                + "<div class=\"inHeadPic\">"+"<img src=" + postList.headPic + "></div></div>"
+                + "<a class=\"indexTable_sonHead\" href='ta.html'>" + postList.author + "</a>" + "</div>"
+                + "<div class=\"indexTableCon\">"
+                + "<h1><a href='/lt_content?postId=" + postList.postId + "'></a>" + postList.localTitle + "</h1>"
+                // +"<p>"+postList[i].mBody+"</p>"
+                + "<ul class=\"indexTable_conFoot clearfix\">"
+                + "<li>" + postList.pubTime + "</li>"
+                + "<li><a href=\"lt_content.html\">评论</a>" + postList.heat + "</li>"
+                + "<li>最新回复时间：" + postList.latestTime + "</li>"
+                + "</ul>"
+                + "</div>"))
+    </script>-->
+    <script src="assets/js/communityLode.js"></script>
 </body>
 <footer>
 <div style="width: 100%;height: 50px"></div>
@@ -72,7 +102,7 @@
         </div>
         <p >发贴</p>
     </a>
-    <a href="me.html">
+    <a href="myWrite.html">
         <div class="footBar_pic">
             <img src="assets/images/communityImage/footIcon3_hover.png" alt=""/>
         </div>

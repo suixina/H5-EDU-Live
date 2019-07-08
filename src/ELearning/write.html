@@ -29,35 +29,54 @@
     </style>
 </head>
 <body style="background-color: #f4f4f4;">
+<script>
+    let title=$("#title").val();
+    let content=$("#content").val();
+    function publish() {
+        $.ajax({
+            type:"post",
+            url:"daiding",/*待定了哇哇哇*/
+            dataType:"json",
+            data:{
+                "id"=,/*这个又是啥*/
+                "time"=,/*这个怎么确定*/
+                "title":title,
+                "content":content,
+            },
+            success:alert("发布成功！"),
+            error:alert("出错了，请重试！"),
+        })
+    }
+</script>
 <div class="writeHead">
     <div class="writeHead_top center">
         <a href="community.html"><img src="assets/images/communityImage/backIcon.png" alt="" class="backBtn"/></a>
         <h1>发帖</h1>
-        <input type="submit" value="发布"/>
+        <input type="submit" onclick="publish()" value="发布"/>
     </div>
 </div>
 <div style="width: 100%;height: 46px"></div>
 <div class="writeTitle center">
-    <input type="text" placeholder="请输入标题"/>
+    <input type="text" placeholder="请输入标题" id="title"/>
 </div>
 <div class="writeCon center">
-<textarea placeholder="请输入您想说的...">对中国打工与度假签证申请人的一般资格要求如下：持有有效的中国护照；申请递交时年满18岁，但未满31岁；不携子女赴澳；有足够的资金支持在澳洲打工度假（至少5000澳币）；在打工度假结束时有足够的资金购..对中国打工与度假签证申请人的一般资格要求如下：持有有效的中国护照；申请递交时年满18岁，但未满31岁；不携子女赴澳；有足够的资金支持在澳洲打工度假（至少5000澳币）；在打工度假结束时有足够的资金购..</textarea>
+<textarea placeholder="请输入您想说的..." id="content"></textarea>
 </div>
 <div style="width: 100%;height: 50px"></div>
 <div class="footBar">
-    <a href="">
+    <a href="community.html">
         <div class="footBar_pic">
             <img src="assets/images/communityImage/footIcon1_hover.png" alt=""/>
         </div>
         <p>首页</p>
     </a>
-    <a href="">
+    <a href="write.html">
         <div class="footBar_pic">
             <img src="assets/images/communityImage/footIcon2.png" alt=""/>
         </div>
         <p class="on">发帖</p>
     </a>
-    <a href="">
+    <a href="myWrite.html">
         <div class="footBar_pic">
             <img src="assets/images/communityImage/footIcon3_hover.png" alt=""/>
         </div>

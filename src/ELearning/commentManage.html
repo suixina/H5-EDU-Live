@@ -53,49 +53,70 @@
 					</div>
 					<div class="layui-inline">
 						<button class="layui-btn">搜索</button>
+						<button class="layui-btn">禁言</button>
+						<button class="layui-btn layui-btn-normal">编辑</button>
+						<button class="layui-btn layui-btn-warm">删除</button>
 					</div>
 				</form>
 			</div>
 			<div class="layui-form" style="margin-top: 30px;">
-				<table class="layui-table">
+				<table class="layui-table" id="list">
 					<thead>
 						<tr>
 							<th>序号</th>
 							<th>用户id</th>
 							<th>评论内容</th>
 							<th>手机号</th>
-							<th>操作</th>
 						</tr>
 					</thead>
-					<tbody>
+					<!--<tbody>
 						<tr>
 							<td>1</td>
 							<td>好粥道1</td>
 							<td>8dfgdsh</td>
 							<td>101654645</td>
-							<td>
-								<button class="layui-btn">禁言</button>
-								<button class="layui-btn layui-btn-normal">编辑</button>
-								<button class="layui-btn layui-btn-warm">删除</button>
-							</td>
 						</tr>
 						<tr>
 							<td>2</td>
 							<td>好粥道2</td>
 							<td>8dfgdsh</td>
 							<td>101654645</td>
-							<td>
-								<button class="layui-btn">禁言</button>
-								<button class="layui-btn layui-btn-normal">编辑</button>
-								<button class="layui-btn layui-btn-warm">删除</button>
-							</td>
 						</tr>
-					</tbody>
+					</tbody>-->
 				</table>
 			</div>
 			<div id="demo8"></div>
 		</div>
+		<script>
+			var userId=$("#userId");
+			function query() {
+				$.ajax({
+					type:"post",
+					url:"/index1",
+					data:{
+						"userId":userId,
+					},
+					dataType:"json",
+					success:function showResult(user) {
+					var target = $("list");
+					target.html("");
+					for (var i=1;i<user.length;i++){
+						var str ="<tr>"
+								+"<td>"+i
+								+"<td>"+user.id+"</td>"
+								+"<td>"+user.number+"</td>"
+								+"<td>"+user.content+"</td>"
+								+"</tr>";
+						target.append(str);
+					}
+				},
+					error:function () {
+						alert("出错了！")
+					}
+				})
+			}
 
+		</script>
 	</body>
 	<script src="assets/js/jquery.js"></script>
 	<script src="assets/js/layui.js"></script>
@@ -128,5 +149,4 @@
 
 		});
 	</script>
-
 </html>

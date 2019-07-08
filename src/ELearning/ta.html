@@ -13,8 +13,8 @@
 <body style="background-color: #f4f4f4;">
 <div class="writeHead">
     <div class="writeHead_top center">
-        <a href="community.html"><img src="assets/images/communityImage/backIcon.png" alt="" class="backBtn"/></a>
-        <h1>坦诚相待</h1>
+        <a href="community.html"><img id="herisHeadPic" src="assets/images/communityImage/backIcon.png" alt="" class="backBtn"/></a>
+        <h1>他（她）的发贴</h1>
     </div>
 </div>
 <div style="width: 100%;height: 46px"></div>
@@ -22,14 +22,51 @@
     <div class="meHead_msg center on">
         <div class="meHead_msgPic"><img src="assets/images/communityImage/cs.png" alt=""/></div>
         <div  class="meHead_msgFont">
-            <h1>坦诚相待</h1>
-            <p>已注册拍王账号178天</p>
+            <h1 id="who">谁谁谁</h1>
         </div>
     </div>
 </div>
 <div class="taTitle">他的发帖</div>
-<div class="indexTable_son on">
-    <div class="taBody">
+<div class="indexTable_son on" id="herisWrite">
+    <script>
+        var addr=window.location.href;
+        var indexNum=addr.lastIndexOf("\=");
+        var herisId=addr.substring(indexNum+1,addr.length);
+        $("#who").innerHTML=herisId;
+        $.ajax({
+            type:"post",
+            url : "/community/myWrite/"+herisId,/*+postId + "/getPost"*/
+            dataType:"json",
+            data:"herisId",
+            success:function succ(postList) {
+                $("#herisHeadPic").attr(src,postList.headPic);
+                for(let i=0;i<postList.length;i++){
+                    if(postList.length>0){
+                        $("#herisWrite").append("<div class='indexTable_son' style='display: block'>"+postList[i].postId
+                            +"<div class='inHeadPic'><img src="+postList[i].headPic+"alt=''></div>"
+                            +"<a class=\"indexTable_sonHead\" href='ta.html'>"+postList[i].author+"</a>"+"</div>"
+                            +"<div class=\"indexTableCon\">"
+                            +"<h1><a href='/lt_content?postId="+postList[i].postId+"'></a>"+postList[i].localTitle+"</h1>"
+                            // +"<p>"+postList[i].mBody+"</p>"
+                            +"<ul class=\"indexTable_conFoot clearfix\">"
+                            +"<li>"+postList[i].pubTime+"</li>"
+                            +"<li><a href=\"lt_content.html\">评论</a>"+postList[i].heat+"</li>"
+                            +"<li>最新回复时间："+postList[i].latestTime+"</li>"
+                            +"</ul>"
+                            +"</div>");
+                    }
+                    else{
+                        alert(postList.status);
+                    }
+                }
+                error:function err(){
+                    alert("糟糕，出错了！")
+                }
+            }
+        });
+    </script>
+
+   <!-- <div class="taBody">
         <a href="javascript:">
             <div class="indexTable_sonHead">
                 <div class="inHeadPic">
@@ -134,7 +171,7 @@
                 <h1>广州4月19号举行限外听证会！2018年是否会实行车牌限行？</h1>
             </div>
         </a>
-    </div>
+    </div>-->
 </div>
 </body>
 </html>

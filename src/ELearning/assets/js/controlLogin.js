@@ -1,6 +1,6 @@
 // \lkj20180323
-var canGetCookie = 1;//是否支持存储Cookie 0 不支持 1 支持
-var ajaxmockjax = 1;//是否启用虚拟Ajax的请求响 0 不启用  1 启用
+let canGetCookie = 1;//是否支持存储Cookie 0 不支持 1 支持
+let ajaxmockjax = 1;//是否启用虚拟Ajax的请求响 0 不启用  1 启用
 //默认账号密码
 
 var truelogin = "admin";
@@ -62,8 +62,7 @@ $('input[name="login"],input[name="pwd"]').keyup(function () {
 });
 var open = 0;
 layui.use('layer', function () {
-    //
-			var msgalert = '默认账号:' + truelogin + '<br/> 默认密码:' + truepwd;
+			var msgalert = '默认账号:' + truelogin + '<br/> 默认密码:自己猜' ;//+ truepwd
    		var index = layer.alert(msgalert, { icon: 6, time: 4000, offset: 't', closeBtn: 0, title: '友情提示', btn: [], anim: 2, shade: 0 });
 			layer.style(index, {
 				color: '#777'
@@ -174,7 +173,7 @@ if(ajaxmockjax == 1){
         url: 'Ajax/Login',
         status: 200,
         responseTime: 50,
-        responseText: {"Status":"ok","Text":"登陆成功<br /><br />欢迎回来",}
+        responseText: {"Status":"ok","Text":"登陆成功<br /><br />欢迎回来<script>alert('进入管理页面');window.top.location = 'managepage.html';</script>",}
 
     });
     $.mockjax({

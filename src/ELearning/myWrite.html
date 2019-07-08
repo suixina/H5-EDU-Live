@@ -13,12 +13,47 @@
 <body style="background-color: #f4f4f4;">
 <div class="writeHead">
     <div class="writeHead_top center">
-        <a href="me.html"><img src="assets/images/communityImage/backIcon.png" alt="" class="backBtn"/></a>
+        <a href="community.html"><img src="assets/images/communityImage/backIcon.png" alt="" class="backBtn"/></a>
         <h1>我的发帖</h1>
     </div>
 </div>
-<div style="width: 100%;height: 46px"></div>
-<div class="indexTable_son current">
+<div style="width: 100%;height: 46px" id="myWrite"></div>
+<script>
+    var addr=window.location.href;
+    var indexNum=addr.lastIndexOf("\=");
+    var myId=addr.substring(indexNum+1,addr.length);
+    $.ajax({
+        type:"post",
+        url : "/community/myWrite/"+myId,/*+postId + "/getPost"*/
+        dataType:"json",
+        data:"myId",
+        success:function succ(postList) {
+            for(let i=0;i<postList.length;i++){
+                if(postList.length>0){
+                    $("#myWrite").append("<div class='indexTable_son' style='display: block'>"+postList[i].postId
+                        +"<div class='inHeadPic'><img src="+postList[i].headPic+"alt=''></div>"
+                        +"<a class=\"indexTable_sonHead\" href='ta.html'>"+postList[i].author+"</a>"+"</div>"
+                        +"<div class=\"indexTableCon\">"
+                        +"<h1><a href='/lt_content?postId="+postList[i].postId+"'></a>"+postList[i].localTitle+"</h1>"
+                        // +"<p>"+postList[i].mBody+"</p>"
+                        +"<ul class=\"indexTable_conFoot clearfix\">"
+                        +"<li>"+postList[i].pubTime+"</li>"
+                        +"<li><a href=\"lt_content.html\">评论</a>"+postList[i].heat+"</li>"
+                        +"<li>最新回复时间："+postList[i].latestTime+"</li>"
+                        +"</ul>"
+                        +"</div>");
+                }
+                else{
+                    alert(postList.status);
+                }
+            }
+            error:function err(){
+                alert("糟糕，出错了！")
+            }
+        }
+    });
+</script>
+<!--<div class="indexTable_son current">
     <a href="">
         <div class="indexTable_sonHead">
             <div class="inHeadPic">
@@ -78,6 +113,27 @@
         <li>修改</li>
     </ul>
 </div>
+<div style="width: 100%;height: 50px"></div>
+<div class="footBar">
+    <a href="community.html">
+        <div class="footBar_pic">
+            <img src="assets/images/communityImage/footIcon1_hover.png" alt=""/>
+        </div>
+        <p>首页</p>
+    </a>
+    <a href="write.html">
+        <div class="footBar_pic">
+            <img src="assets/images/communityImage/footIcon2.png" alt=""/>
+        </div>
+        <p class="on">发帖</p>
+    </a>
+    <a href="myWrite.html">
+        <div class="footBar_pic">
+            <img src="assets/images/communityImage/footIcon3_hover.png" alt=""/>
+        </div>
+        <p>我的</p>
+    </a>
+</div>-->
 </body>
 </html>
 <script src="assets/js/jquery.min.js"></script>
