@@ -34,12 +34,12 @@
         <form class="layui-form" action="">
             <div class="layui-inline">
                 <div class="layui-input-inline">
-                    <input type="text" name="number" lay-verify="required|number" autocomplete="off" class="layui-input" placeholder="请输入用户id">
+                    <input type="text" name="number" id="userId" lay-verify="required|number" autocomplete="off" class="layui-input" placeholder="请输入用户id">
                 </div>
             </div>
             <div class="layui-inline">
                 <div class="layui-input-inline">
-                    <input type="text" name="number" lay-verify="required|number" autocomplete="off" class="layui-input" placeholder="用户手机号">
+                    <input type="text" name="number" id="userPhone" lay-verify="required|number" autocomplete="off" class="layui-input" placeholder="用户手机号">
                 </div>
             </div>
             <div class="layui-inline">
@@ -54,6 +54,8 @@
             </div>
             <div class="layui-inline">
                 <button class="layui-btn">搜索</button>
+                <button class="layui-btn layui-btn-normal">编辑</button>
+                <button class="layui-btn layui-btn-warm">删除</button>
             </div>
             <!--<div class="layui-inline" style="float: right;">
                 <button class="layui-btn"><a href="addMeal.html">不知道用来干什么的按钮</a></button>
@@ -68,10 +70,9 @@
                 <th>用户id</th>
                 <th>考试内容</th>
                 <th>手机号</th>
-                <th>操作</th>
             </tr>
             </thead>
-            <tbody>
+            <!--<tbody>
             <tr>
                 <td>1</td>
                 <td>好粥道1</td>
@@ -94,9 +95,60 @@
                     <button class="layui-btn layui-btn-warm">删除</button>
                 </td>
             </tr>
-            </tbody>
+            </tbody>-->
         </table>
     </div>
+    <script>
+        var userId=$("#userId");
+        var userPhone=$("#userPhone");
+        var postTitle=$("#postTitle");
+        window.onload=function loadPage(){
+            $.ajax({
+                type:"post",
+                url:"",
+                dataType:"json",
+                data:"",
+                success:showResult(res),
+                error:alert("没有课程！")
+            })
+        };
+        function query() {
+            $.ajax({
+                type:"post",
+                url:"/index1",
+                data:{
+                    "userId":userId,
+                    "userPhone":userPhone,
+                    "postTitle":postTitle,
+                },
+                dataType:"json",
+                success:function (resp) {
+                    alert("课程存在！")
+                    //showResult(resp);
+                },
+                error:function () {
+                    alert("该课程不存在！")
+                }
+            })
+        }
+        function showResult(result) {
+            var target = $(".main .content tbody");
+            target.html("");
+            for (var user of result){
+                var str ="<tr>"
+                    +"<td>"+user.id+"</td>"
+                    +"<td>"+user.number+"</td>"
+                    +"<td>"+user.content+"</td>"
+                    +"</tr>";
+                target.append(str);
+            }
+            if (result.length>0){
+                $(".main .content .empty").hide();
+            }else {
+                $(".main .content .empty").show();
+            }
+        }
+    </script>
     <div id="demo8"></div>
 </div>
 

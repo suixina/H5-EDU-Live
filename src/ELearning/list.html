@@ -81,6 +81,16 @@
 	<!--查询可以成功吗-->
 	<script>
 		var userId=$("#userId");
+		window.onload=function loadPage(){
+			$.ajax({
+				type:"post",
+				url:"",
+				dataType:"json",
+				data:"",
+				success:showResult(res),
+				error:alert("没有被禁言用户！")
+			})
+		};
 		function query() {
 			$.ajax({
 				type:"post",
