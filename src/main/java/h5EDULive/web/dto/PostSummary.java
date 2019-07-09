@@ -4,6 +4,7 @@ public class PostSummary {
     private int postId;
     private String title;
     private String author;
+    //Í·Ïñ
     private int heat;
     private String pubTime;
     private String latestTime;

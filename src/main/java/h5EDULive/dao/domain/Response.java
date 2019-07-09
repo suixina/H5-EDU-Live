@@ -10,7 +10,8 @@ public class Response {
     @Column(name = "res_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int resId;
-    private int pId;
+    private int pId;//被回复id
+    //被回复人？
     private String responder;
     private String respondTime;
     private String content;

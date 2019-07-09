@@ -7,7 +7,8 @@ import java.util.List;
 public class PostDetail {
     private String title;
     private String author;
-    private int heat;
+    private int heat;//评论展开不要热度了
+    //头像
     private String body;
     private String pubTime;
     private List<Response> responses;

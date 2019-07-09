@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <head>
     <meta charset="UTF-8">
     <title>敏感词管理</title>
@@ -22,9 +21,72 @@
             padding-left: 30px;
         }
     </style>
+    <script src="assets/js/jquery.js"></script>
+    <script src="assets/js/layui.js"></script>
+    <script>
+        let sensitiveWord=$("#sensitiveWord").val();
+        function loadPage(){
+            $.ajax({
+                type:"post",
+                url:"",
+                dataType:"json",
+                data:sensitiveWord,
+                success:function showResult(result) {
+                    let target = $(".main .content tbody");
+                    target.html("");
+                    for (let user of result){
+                        let str ="<tr>"
+                            +"<td>"+user.id+"</td>"
+                            +"<td>"+user.number+"</td>"
+                            +"<td>"+user.content+"</td>"
+                            +"</tr>";
+                        target.append(str);
+                    }
+                    if (result.length>0){
+                        $(".main .content .empty").hide();
+                    }else {
+                        $(".main .content .empty").show();
+                    }
+                },
+                error:alert("没有敏感词！")
+            })
+        }
+        function addSWord() {
+            $.ajax({
+                type:"post",
+                url:"",
+                data:sensitiveWord,
+                dataType:"json",
+                success:function (succ) {
+                    if(succ===1)
+                        alert("敏感词添加成功！");
+                    alert("该敏感词已存在");
+                },
+                error:function () {
+                    alert("出错了！")
+                }
+            })
+        }
+        function deleteSWord(){
+            $.ajax({
+                type:"post",
+                url:"/index1",
+                data:sensitiveWord,
+                dataType:"json",
+                success:function (succ) {
+                    if(succ===1)
+                        alert("成功删除！");
+                    alert("该敏感词不存在！")
+                },
+                error:function () {
+                    alert("出错了！")
+                }
+            })
+        }
+    </script>
 </head>
 
-<body>
+<body onload="loadPage()">
 
 <div style="padding: 15px;" class="layui-anim layui-anim-upbit">
     <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
@@ -38,7 +100,7 @@
                 </div>
             </div>
             <div class="layui-inline">
-                <button class="layui-btn" onclick="query()">搜索</button>
+                <button class="layui-btn" onclick="addSWord()">添加</button>
                 <button class="layui-btn layui-btn-warm" onclick="deleteSWord()">删除</button>
             </div>
         </form>
@@ -51,92 +113,11 @@
                 <th>敏感词</th>
             </tr>
             </thead>
-            <!--<tbody>
-            <tr>
-                <td>1</td>
-                <td>8dfgdsh</td>
-                <td>
-                    <button class="layui-btn layui-btn-normal">编辑</button>
-                    <button class="layui-btn layui-btn-warm">删除</button>
-                </td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>8dfgdsh</td>
-                <td>
-                    <button class="layui-btn layui-btn-normal">编辑</button>
-                    <button class="layui-btn layui-btn-warm">删除</button>
-                </td>
-            </tr>
-            </tbody>-->
         </table>
     </div>
-    <script>
-        var sensitiveWord=$("#sensitiveWord");
-        window.onload=function loadPage(){
-            $.ajax({
-                type:"post",
-                url:"",
-                dataType:"json",
-                data:"",
-                success:showResult(res),
-                error:alert("没有敏感词！")
-            })
-        };
-        function query() {
-            $.ajax({
-                type:"post",
-                url:"/index1",
-                data:"sensitiveWord",
-                dataType:"json",
-                success:function (resp) {
-                    alert("敏感词存在！")
-                    // showResult(resp);
-                },
-                error:function () {
-                    alert("该敏感词不存在！")
-                }
-            })
-        }
-        function deleteSWord(){
-            $.ajax({
-                type:"post",
-                url:"/index1",
-                data:"sensitiveWord",
-                dataType:"json",
-                success:function (resp) {
-                    alert("成功删除！")
-                    //showResult(resp);
-                },
-                error:function () {
-                    alert("出错了！")
-                }
-            })
-        }
-        function showResult(result) {
-            var target = $(".main .content tbody");
-            target.html("");
-            for (var user of result){
-                var str ="<tr>"
-                    +"<td>"+user.id+"</td>"
-                    +"<td>"+user.number+"</td>"
-                    +"<td>"+user.content+"</td>"
-                    +"</tr>";
-                target.append(str);
-            }
-            if (result.length>0){
-                $(".main .content .empty").hide();
-            }else {
-                $(".main .content .empty").show();
-            }
-        }
-    </script>
     <div id="demo8"></div>
 </div>
-
 </body>
-<script src="assets/js/jquery.js"></script>
-<script src="assets/js/layui.js"></script>
 <script>
     //注意：选项卡 依赖 element 模块，否则无法进行功能性操作
     layui.use(['laypage','element', 'layer', 'form'], function() {

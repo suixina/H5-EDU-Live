@@ -5,9 +5,74 @@
 		<meta charset="UTF-8">
 		<title>控制台</title>
 		<link rel="stylesheet" href="assets/css/layui.css">
+		<script src="assets/js/layui.js"></script>
+		<script src="assets/js/jquery.js"></script>
+		<script>
+			function loadPage() {
+				$.ajax({
+					type: "post",
+					url: "",
+					dataType: "json",
+					data: "",
+					success: function showResult(res) {
+						let target = $(".main .content tbody");
+						target.html("");
+						for (let user of res) {
+							let str = "<tr>"
+									+ "<td>" + user.id + "</td>"
+									+ "<td>" + user.number + "</td>"
+									+ "<td>" + user.content + "</td>"
+									+ "</tr>";
+							target.append(str);
+						}
+						if (res.length > 0) {
+							$(".main .content .empty").hide();
+						} else {
+							$(".main .content .empty").show();
+						}
+					},
+					error: alert("没有被禁言用户！"),
+				})
+			}
+			let userId=$("#userId").val();
+			function addBan() {
+				$.ajax({
+					type:"post",
+					url:"/admin/removeUser",
+					data:"userId",
+					dataType:"json",
+					success:function (succ) {
+						if(succ===1)
+							alert("成功禁言该用户！");
+						alert("该用户不存在！");
+					},
+					error:function () {
+						alert("出错了!");
+					}
+				})
+			}
+			function relUser() {
+				$.ajax({
+					type:"post",
+					url:"/admin/removeUser",
+					data:{
+						"userId":userId,
+					},
+					dataType:"json",
+					success:function (succ) {
+						if(succ===1)
+							alert("成功解除禁言！");
+						alert("该用户不存在！")
+					},
+					error:function () {
+						alert("出错了！")
+					}
+				})
+			}
+		</script>
 	</head>
 
-	<body>
+	<body onload="loadPage()">
 		<!-- 内容主体区域 -->
 		<div style="padding: 15px;" class="layui-anim layui-anim-upbit">
 
@@ -33,7 +98,8 @@
 									</div>
 								</div>
 								<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-									<button class="layui-btn" style="margin-left: 10px;" onclick="query()">禁言</button>
+									<button class="layui-btn" style="margin-left: 10px;" onclick="addBan()">添加禁言</button>
+									<button class="layui-btn" style="margin-left: 10px;" onclick="relUser()">解除禁言</button>
 								</div>
 							</div>
 						</fieldset>
@@ -56,74 +122,6 @@
 					</div>
 				</div>
 			</div>
-
 		</div>
 	</body>
-	<script src="assets/js/layui.js"></script>
-	<!--<script>
-		layui.use(['element', 'layer', 'laydate','table'], function() {
-			var element = layui.element;
-			var layer = layui.layer;
-			var laydate = layui.laydate;
-			 var table = layui.table;
-			/*一些事件监听
-			element.on('tab(demo)', function(data) {
-				layer.msg('切换了：' + this.innerHTML);
-
-			});*/
-			//执行一个laydate实例
-			laydate.render({
-				elem: '#ceshiDate' //指定元素
-			});
-
-		});
-	</script>-->
-	<!--查询可以成功吗-->
-	<script>
-		var userId=$("#userId");
-		window.onload=function loadPage(){
-			$.ajax({
-				type:"post",
-				url:"",
-				dataType:"json",
-				data:"",
-				success:showResult(res),
-				error:alert("没有被禁言用户！")
-			})
-		};
-		function query() {
-			$.ajax({
-				type:"post",
-				url:"/index1",
-				data:{
-					"userId":userId,
-				},
-				dataType:"json",
-				success:function (resp) {
-					alert("成功禁言该用户！")
-					//showResult(resp);
-				},
-				error:function () {
-					alert("该用户不存在")
-				}
-			})
-		}
-		function showResult(result) {
-			var target = $(".main .content tbody");
-			target.html("");
-			for (var user of result){
-				var str ="<tr>"
-						+"<td>"+user.id+"</td>"
-						+"<td>"+user.number+"</td>"
-						+"<td>"+user.content+"</td>"
-						+"</tr>";
-				target.append(str);
-			}
-			if (result.length>0){
-				$(".main .content .empty").hide();
-			}else {
-				$(".main .content .empty").show();
-			}
-		}
-	</script>
 </html>

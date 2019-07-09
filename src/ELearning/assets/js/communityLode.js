@@ -1,13 +1,13 @@
-$(".indexTable li").click(function(){
+/*$(".indexTable li").click(function(){
     var indexs=$(this).index();
     $(".indexTable li").removeClass("on").eq(indexs).addClass("on");
     $(".indexTable_con").hide().eq(indexs).show();
-});
+});*/
 function queryTitle(){
     var search=$("#search");
     $.ajax({
         type:"post",
-        url : "/community",/*+postId + "/getPost"*/
+        url : "/community/summaries",/*+postId + "/getPost"*/
         dataType:"json",
         data:"search",
         success:function succ(postList) {
@@ -17,7 +17,7 @@ function queryTitle(){
                         +"<div class='inHeadPic'><img src="+postList[i].headPic+"alt=''></div>"
                         +"<a class=\"indexTable_sonHead\" href='ta.html'>"+postList[i].author+"</a>"+"</div>"
                         +"<div class=\"indexTableCon\">"
-                        +"<h1><a href='/lt_content?postId="+postList[i].postId+"'></a>"+postList[i].localTitle+"</h1>"
+                        +"<h1><a href='/lt_content?postId="+postList[i].postId+"'></a>"+postList[i].title+"</h1>"
                         // +"<p>"+postList[i].mBody+"</p>"
                         +"<ul class=\"indexTable_conFoot clearfix\">"
                         +"<li>"+postList[i].pubTime+"</li>"
@@ -38,7 +38,7 @@ function queryTitle(){
 }
     $.ajax({
         type:"post",
-        url : "/community",/*+postId + "/getPost"*/
+        url : "/community/summaries",/*+postId + "/getPost"*/
         dataType:"json",
         data:"indexs",
         success:function succ(postList) {
@@ -48,7 +48,7 @@ function queryTitle(){
                         +"<div class='inHeadPic'><img src="+postList[i].headPic+"alt=''></div>"
                         +"<a class=\"indexTable_sonHead\" href='ta.html'>"+postList[i].author+"</a>"+"</div>"
                         +"<div class=\"indexTableCon\">"
-                        +"<h1><a href='/lt_content?postId="+postList[i].postId+"'></a>"+postList[i].localTitle+"</h1>"
+                        +"<h1><a href='/lt_content?postId="+postList[i].postId+"'></a>"+postList[i].title+"</h1>"
                         // +"<p>"+postList[i].mBody+"</p>"
                         +"<ul class=\"indexTable_conFoot clearfix\">"
                         +"<li>"+postList[i].pubTime+"</li>"

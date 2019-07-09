@@ -1,14 +1,14 @@
 let comment=$("#comment").val();
-let pubTime=document.getElementById("comment").click();
+let p=document.getElementById("resp");
+let pId=p.parentNode.id;//为什么给我报错？？？
 function sendComment(){
     $.ajax({
         type:"post",
-        url:"/community" + postId + "/getPost",
+        url:"/community/respond",
         dataType:"json",
         data: {
-            "response.Id":Id,
+            "pId":pId,
             "comment":comment,
-            "pubTime":pubTime.getTime(),
         },
         success:alert("发表成功"),
         error:alert("发送失败，请重新发送！")

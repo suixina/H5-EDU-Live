@@ -31,17 +31,15 @@
 <body style="background-color: #f4f4f4;">
 <script>
     let title=$("#title").val();
-    let content=$("#content").val();
+    let body=$("#content").val();
     function publish() {
         $.ajax({
             type:"post",
-            url:"daiding",/*待定了哇哇哇*/
+            url:"/community/add",
             dataType:"json",
             data:{
-                "id"=,/*这个又是啥*/
-                "time"=,/*这个怎么确定*/
                 "title":title,
-                "content":content,
+                "body":body,
             },
             success:alert("发布成功！"),
             error:alert("出错了，请重试！"),
@@ -52,7 +50,7 @@
     <div class="writeHead_top center">
         <a href="community.html"><img src="assets/images/communityImage/backIcon.png" alt="" class="backBtn"/></a>
         <h1>发帖</h1>
-        <input type="submit" onclick="publish()" value="发布"/>
+        <input type="submit" id="pub" onclick="publish()" value="发布"/>
     </div>
 </div>
 <div style="width: 100%;height: 46px"></div>
