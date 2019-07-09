@@ -2,13 +2,52 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title></title>
+    <title>他/她的发贴</title>
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <link rel="stylesheet" href="https://cdn.bootcss.com/weui/1.1.2/style/weui.min.css">
     <link rel="stylesheet" href="https://cdn.bootcss.com/jquery-weui/1.2.0/css/jquery-weui.min.css">
     <link rel="stylesheet" href="assets/css/reset.css"/>
     <link rel="stylesheet" href="assets/css/global.css"/>
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/jquery-3.4.1.js"></script>
+    <script>
+        let addr=window.location.href;
+        let indexNum=addr.lastIndexOf("\=");
+        let herisId=addr.substring(indexNum+1,addr.length);
+
+        $.ajax({
+            type:"post",
+            url : "/community/myWrite/"+herisId,/*+postId + "/getPost"*/
+            dataType:"json",
+            data:"herisId",
+            success:function succ(he) {
+                $("#who").innerHTML=he.author;
+                $("#herisHeadPic").attr(src, he.headPic);
+                for (let i = 0; i < he.length; i++) {
+                    if (he.length > 0) {
+                        for(posts in he){
+                            $("#herisWrite").append("<div class='indexTable_son' style='display: block'>" + posts.postId
+                                + "<div class='inHeadPic'><img src=" + posts.headPic + "alt=''></div>"
+                                + "<a class=\"indexTable_sonHead\" href='ta.html'>" + posts.author + "</a>" + "</div>"
+                                + "<div class=\"indexTableCon\">"
+                                + "<h1><a href='/lt_content?postId=" + posts.postId + "'></a>" + posts.localTitle + "</h1>"
+                                // +"<p>"+postList[i].mBody+"</p>"
+                                + "<ul class=\"indexTable_conFoot clearfix\">"
+                                + "<li>" + posts.pubTime + "</li>"
+                                + "<li><a href=\"lt_content.html\">评论</a>" + posts.heat + "</li>"
+                                + "<li>最新回复时间：" + posts.latestTime + "</li>"
+                                + "</ul>"
+                                + "</div>");
+                        }
+                    }
+                    alert("没有内容");
+
+                }
+            },
+                error: alert("糟糕，出错了！"),
+        });
+    </script>
 </head>
 <body style="background-color: #f4f4f4;">
 <div class="writeHead">
@@ -28,43 +67,7 @@
 </div>
 <div class="taTitle">他的发帖</div>
 <div class="indexTable_son on" id="herisWrite">
-    <script>
-        var addr=window.location.href;
-        var indexNum=addr.lastIndexOf("\=");
-        var herisId=addr.substring(indexNum+1,addr.length);
-        $("#who").innerHTML=herisId;
-        $.ajax({
-            type:"post",
-            url : "/community/myWrite/"+herisId,/*+postId + "/getPost"*/
-            dataType:"json",
-            data:"herisId",
-            success:function succ(postList) {
-                $("#herisHeadPic").attr(src,postList.headPic);
-                for(let i=0;i<postList.length;i++){
-                    if(postList.length>0){
-                        $("#herisWrite").append("<div class='indexTable_son' style='display: block'>"+postList[i].postId
-                            +"<div class='inHeadPic'><img src="+postList[i].headPic+"alt=''></div>"
-                            +"<a class=\"indexTable_sonHead\" href='ta.html'>"+postList[i].author+"</a>"+"</div>"
-                            +"<div class=\"indexTableCon\">"
-                            +"<h1><a href='/lt_content?postId="+postList[i].postId+"'></a>"+postList[i].localTitle+"</h1>"
-                            // +"<p>"+postList[i].mBody+"</p>"
-                            +"<ul class=\"indexTable_conFoot clearfix\">"
-                            +"<li>"+postList[i].pubTime+"</li>"
-                            +"<li><a href=\"lt_content.html\">评论</a>"+postList[i].heat+"</li>"
-                            +"<li>最新回复时间："+postList[i].latestTime+"</li>"
-                            +"</ul>"
-                            +"</div>");
-                    }
-                    else{
-                        alert(postList.status);
-                    }
-                }
-                error:function err(){
-                    alert("糟糕，出错了！")
-                }
-            }
-        });
-    </script>
+
 
    <!-- <div class="taBody">
         <a href="javascript:">
@@ -175,5 +178,3 @@
 </div>
 </body>
 </html>
-<script src="assets/js/jquery.min.js"></script>
-<script src="https://cdn.bootcss.com/jquery-weui/1.2.0/js/jquery-weui.min.js"></script>

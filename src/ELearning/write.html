@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="https://cdn.bootcss.com/jquery-weui/1.2.0/css/jquery-weui.min.css">
     <link rel="stylesheet" href="assets/css/reset.css"/>
     <link rel="stylesheet" href="assets/css/global.css"/>
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/jquery-3.4.1.js"></script>
     <style>
         input::-webkit-input-placeholder{
             color:#333;
@@ -27,25 +29,29 @@
             font-size: 14px;
         }
     </style>
+    <script>
+        let title=$("#title").val();
+        let body=$("#content").val();
+        function publish() {
+            $.ajax({
+                type:"post",
+                url:"/community/add",
+                dataType:"json",
+                data:{
+                    "title":title,
+                    "body":body,
+                },
+                success:function pub(succ) {
+                    if (succ===1)
+                        alert("发布成功！");
+                    alert("请重试！")
+                },
+                error:alert("出错了，请重试！"),
+            })
+        }
+    </script>
 </head>
 <body style="background-color: #f4f4f4;">
-<script>
-    let title=$("#title").val();
-    let body=$("#content").val();
-    function publish() {
-        $.ajax({
-            type:"post",
-            url:"/community/add",
-            dataType:"json",
-            data:{
-                "title":title,
-                "body":body,
-            },
-            success:alert("发布成功！"),
-            error:alert("出错了，请重试！"),
-        })
-    }
-</script>
 <div class="writeHead">
     <div class="writeHead_top center">
         <a href="community.html"><img src="assets/images/communityImage/backIcon.png" alt="" class="backBtn"/></a>
@@ -83,5 +89,3 @@
 </div>
 </body>
 </html>
-<script src="assets/js/jquery.min.js"></script>
-<script src="https://cdn.bootcss.com/jquery-weui/1.2.0/js/jquery-weui.min.js"></script>
