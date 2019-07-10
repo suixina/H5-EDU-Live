@@ -9,7 +9,7 @@ function queryTitle(){
         type:"post",
         url : "/community/summaries",/*+postId + "/getPost"*/
         dataType:"json",
-        data:{"search":search},
+        data:search,
         success:function succ(postList) {
             for(let users in postList) {
                 $("#postDiv").append("<div class='indexTable_son' style='display: block'>" + users.postId

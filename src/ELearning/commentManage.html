@@ -25,18 +25,50 @@
 		<script src="assets/js/jquery-3.4.1.js"></script>
 		<script src="assets/js/layui.js"></script>
 		<script>
+			$.ajax({
+				type:"post",
+				url:"",
+				dataType:"json",
+				data:"",
+				success:function showResult(result) {
+					let target = $(".main .content tbody");
+					target.html("");
+					for (var user of result){
+						let str ="<tr>"
+								+"<td onclick='banConfirm()'>"+user.id+"</td>"
+								+"<td onclick='deleteConfirm()'>"+user.content+"</td>"
+								+"</tr>";
+						target.append(str);
+					}
+					if (result.length>0){
+						$(".main .content .empty").hide();
+					}else {
+						$(".main .content .empty").show();
+					}
+				},
+				error:alert("没有评论！")
+			});
+			let id=$("#userId").val();
+			let title=$("#postTitle").val();
+			function banConfirm() {
+				if(confirm("禁言该用户？")){
+					banUser();
+				}else{
+					alert("已取消");
+				}
+			}
+			function deleteConfirm() {
+				if(confirm("删除该评论？")){
+					deletePost();
+				}else{
+					alert("已取消");
+				}
+			}
 			function banUser() {
-				let id=$("#userId").val();
-				let phone=$("#userPhone").val();
-				let title=$("#postTitle").val();
 				$.ajax({
 					type:"post",
-					url:"",
-					data:{
-						"id":id,
-						"phone":phone,
-						"title":title,
-					},
+					url:"/admin/banUser",
+					data: id,
 					contentType:"application/json",
 					dataType:"json",
 					success:function (succ) {
@@ -82,11 +114,6 @@
 					</div>
 					<div class="layui-inline">
 						<div class="layui-input-inline">
-							<input type="text" name="number" id="userPhone" lay-verify="required|number" autocomplete="off" class="layui-input" placeholder="用户手机号">
-						</div>
-					</div>
-					<div class="layui-inline">
-						<div class="layui-input-inline">
 							<input type="text" name="number" lay-verify="required|number" autocomplete="off" class="layui-input" placeholder="请输入敏感词">
 						</div>
 					</div>
@@ -100,41 +127,12 @@
 				<table class="layui-table" id="list">
 					<thead>
 						<tr>
-							<th>序号</th>
 							<th>用户id</th>
 							<th>评论内容</th>
-							<th>手机号</th>
 						</tr>
 					</thead>
 				</table>
 			</div>
-			<script>
-					$.ajax({
-						type:"post",
-						url:"",
-						dataType:"json",
-						data:"",
-						success:function showResult(result) {
-							let target = $(".main .content tbody");
-							target.html("");
-							for (var user of result){
-								let str ="<tr>"
-										+"<td>"+user.id+"</td>"
-										+"<td>"+user.number+"</td>"
-										+"<td>"+user.content+"</td>"
-										+"</tr>";
-								target.append(str);
-							}
-							if (result.length>0){
-								$(".main .content .empty").hide();
-							}else {
-								$(".main .content .empty").show();
-							}
-						},
-						error:alert("没有评论！")
-					})
-
-			</script>
 			<div id="demo8"></div>
 		</div>
 

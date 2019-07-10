@@ -25,20 +25,32 @@
     <script src="assets/js/layui.js"></script>
     <script>
         let sensitiveWord=$("#sensitiveWord").val();
+        function addConfirm() {
+            if(confirm("禁言该用户？")){
+                addSWord();
+            }else{
+                alert("已取消");
+            }
+        }
+        function deleteConfirm() {
+            if(confirm("删除该敏感词？")){
+                deleteSWord();
+            }else{
+                alert("已取消");
+            }
+        }
         function loadPage(){
             $.ajax({
                 type:"post",
                 url:"",
                 dataType:"json",
-                data:sensitiveWord,
+                data:"",
                 success:function showResult(result) {
                     let target = $(".main .content tbody");
                     target.html("");
                     for (let user of result){
                         let str ="<tr>"
-                            +"<td>"+user.id+"</td>"
-                            +"<td>"+user.number+"</td>"
-                            +"<td>"+user.content+"</td>"
+                            +"<td onclick='deleteConfirm()'>"+user.content+"</td>"
                             +"</tr>";
                         target.append(str);
                     }
@@ -70,7 +82,7 @@
         function deleteSWord(){
             $.ajax({
                 type:"post",
-                url:"/index1",
+                url:"/admin/",
                 data:sensitiveWord,
                 dataType:"json",
                 success:function (succ) {
@@ -100,8 +112,8 @@
                 </div>
             </div>
             <div class="layui-inline">
-                <button class="layui-btn" onclick="addSWord()">添加</button>
-                <button class="layui-btn layui-btn-warm" onclick="deleteSWord()">删除</button>
+                <button class="layui-btn" onclick="addConfirm()">添加</button>
+                <button class="layui-btn layui-btn-warm" onclick="deleteConfirm()">删除</button>
             </div>
         </form>
     </div>
@@ -121,9 +133,9 @@
 <script>
     //注意：选项卡 依赖 element 模块，否则无法进行功能性操作
     layui.use(['laypage','element', 'layer', 'form'], function() {
-        var element = layui.element;
-        var layer = layui.layer;
-        var laypage = layui.laypage;
+        let element = layui.element;
+        let layer = layui.layer;
+        let laypage = layui.laypage;
 
         element.on('tab(demo)', function(data) {
             layer.msg('切换了：' + this.innerHTML);

@@ -32,15 +32,16 @@
     <script>
         let title=$("#title").val();
         let body=$("#content").val();
+        let postInfo={
+            "title":title,
+            "body":body,
+        };
         function publish() {
             $.ajax({
                 type:"post",
                 url:"/community/add",
                 dataType:"json",
-                data:{
-                    "title":title,
-                    "body":body,
-                },
+                data:postInfo,
                 success:function pub(succ) {
                     if (succ===1)
                         alert("发布成功！");

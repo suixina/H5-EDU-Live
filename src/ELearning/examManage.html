@@ -25,9 +25,22 @@
     <script src="assets/js/jquery.js"></script>
     <script src="assets/js/layui.js"></script>
     <script>
-        var userId=$("#userId").val();
-        var userPhone=$("#userPhone").val();
-        var postTitle=$("#postTitle").val();
+        let userId=$("#userId").val();
+        let examId=$("#examId").val();
+        function banConfirm() {
+            if(confirm("禁言该用户？")){
+                banUser();
+            }else{
+                alert("已取消");
+            }
+        }
+        function deleteConfirm() {
+            if(confirm("删除该课程？")){
+               deleteExam();
+            }else{
+                alert("已取消");
+            }
+        }
         function loadPage(){
             $.ajax({
                 type:"post",
@@ -39,9 +52,8 @@
                     target.html("");
                     for (let user of result){
                         let str ="<tr>"
-                            +"<td>"+user.id+"</td>"
-                            +"<td>"+user.number+"</td>"
-                            +"<td>"+user.content+"</td>"
+                            +"<td onclick='banConfirm()'>"+user.id+"</td>"
+                            +"<td onclick='deleteConfirm()'>"+user.content+"</td>"
                             +"</tr>";
                         target.append(str);
                     }
@@ -53,15 +65,12 @@
                 },
                 error:alert("没有课程！")
             })
-        };
+        }
         function addBan() {
             $.ajax({
                 type:"post",
-                url:"/index1",
-                data:{
-                    "userId":userId,
-                    "userPhone":userPhone,
-                },
+                url:"/admin/banUser",
+                data:userId,
                 dataType:"json",
                 success:function (succ) {
                     if(succ===1)
@@ -76,8 +85,8 @@
         function deleteExam(){
             $.ajax({
                 type:"post",
-                url:"/index1",
-                data:{ "postTitle":postTitle},
+                url:"/admin/removeExam",
+                data:examId,
                 dataType:"json",
                 success:function (succ) {
                     if(succ===1)
@@ -106,12 +115,7 @@
             </div>
             <div class="layui-inline">
                 <div class="layui-input-inline">
-                    <input type="text" name="number" id="userPhone" lay-verify="required|number" autocomplete="off" class="layui-input" placeholder="用户手机号">
-                </div>
-            </div>
-            <div class="layui-inline">
-                <div class="layui-input-inline">
-                    <input type="text" name="number" lay-verify="required|number" autocomplete="off" class="layui-input" placeholder="请输入考试">
+                    <input id="examId" type="text" name="number" lay-verify="required|number" autocomplete="off" class="layui-input" placeholder="请输入考试">
                 </div>
             </div>
             <div class="layui-inline">
@@ -124,10 +128,8 @@
         <table class="layui-table">
             <thead>
             <tr>
-                <th>序号</th>
                 <th>用户id</th>
                 <th>考试内容</th>
-                <th>手机号</th>
             </tr>
             </thead>
         </table>

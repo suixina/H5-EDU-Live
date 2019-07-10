@@ -4,7 +4,7 @@ let postId=url.slice(indexNum+1);
 let responseDiv=$("#responseDiv").val();
 $.ajax({
         type: "post",
-        url: "/community" + postId + "/getPost",
+        url: "/community/post/detail",
         dataType: "json",
         data:postId,
         success: function succ(response) {
@@ -29,9 +29,9 @@ $.ajax({
                         + "<div class='ltCon_pendCen_left' id=" + responses[i].resId + ">"
                         + "<img src=" + responses[i].responderHeadPic + "alt=''/>"
                         + " <p class='ltCon_pendCen_right'>" + responses[i].responder + "</p>"
-                        + "<span>" + responses[i].respondTime + "</span>"
-                        + "<span id='resp' onclick='sendComment()'>回复</span>"
-                        + "<p class='ltReplay'>回复 <a href='/ta?Id=" + responses[i].pId + ">" + response.respondeer + "</a> " + response.content + "</p>"
+                        //+ "<span>" + responses[i].respondTime + "</span>"
+                        //+ "<span id='resp' onclick='sendComment()'>回复</span>"
+                        + "<p class='ltReplay'>回复 "+ response.content + "</p>"//+<a href='/ta?Id=" + responses[i].pId + ">"+ response.respondeer + "</a> "
                         + "</div>"
                         + "</div>");
                     /* function reply() {
@@ -46,16 +46,14 @@ $.ajax({
      error:alert("糟糕，出错了！"),
     });
 let comment=$("#comment").val();
-let p=document.getElementById("resp");
-let pId=p.parentNode.id;//为什么给我报错？？？
+// let p=document.getElementById("resp");
+// let pId=p.parentNode.id;//为什么给我报错？？？
 function sendComment(){
-    alert("111");
     $.ajax({
         type:"post",
         url:"/community/respond",
         dataType:"json",
-        data: "pId",//从哪儿获取
-            // "comment":comment,
+        data:comment,//从哪儿获取
         success:function send(succ){
             if(succ===1)
             alert("发表成功！");

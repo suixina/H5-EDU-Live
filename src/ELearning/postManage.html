@@ -25,9 +25,22 @@
     <script src="assets/js/jquery.js"></script>
     <script src="assets/js/layui.js"></script>
     <script>
-        var userId=$("#userId").val();
-        var userPhone=$("#userPhone").val();
-        var postTitle=$("#postTitle").val();
+        let userId=$("#userId").val();
+        let postTitle=$("#postTitle").val();
+        function banConfirm() {
+            if(confirm("禁言该用户？")){
+                banUser();
+            }else{
+                alert("已取消");
+            }
+        }
+        function deleteConfirm() {
+            if(confirm("删除该课程？")){
+                deletePost();
+            }else{
+                alert("已取消");
+            }
+        }
         function loadPage(){
             $.ajax({
                 type:"post",
@@ -39,9 +52,8 @@
                     target.html("");
                     for (var user of result){
                         var str ="<tr>"
-                            +"<td>"+user.id+"</td>"
-                            +"<td>"+user.number+"</td>"
-                            +"<td>"+user.content+"</td>"
+                            +"<td onclick='banConfirm()'>"+user.id+"</td>"
+                            +"<td onclick='deleteConfirm()'>"+user.content+"</td>"
                             +"</tr>";
                         target.append(str);
                     }
@@ -58,10 +70,7 @@
             $.ajax({
                 type:"post",
                 url:"/index1",
-                data:{
-                    "userId":userId,
-                    "userPhone":userPhone,
-                },
+                data:userId,
                 dataType:"json",
                 success:function (succ) {
                     if(succ===1)
@@ -105,20 +114,14 @@
                 <div class="layui-input-inline">
                     <input type="text" name="number" id="userId" lay-verify="required|number" autocomplete="off" class="layui-input" placeholder="请输入用户id">
                 </div>
-            </div>
-            <div class="layui-inline">
-                <div class="layui-input-inline">
-                    <input type="text" name="number" id="userPhone" lay-verify="required|number" autocomplete="off" class="layui-input" placeholder="用户手机号">
-                </div>
-            </div>
             <div class="layui-inline">
                 <div class="layui-input-inline">
                     <input type="text" name="number" id="postTitle" lay-verify="required|number" autocomplete="off" class="layui-input" placeholder="请输入贴子标题">
                 </div>
             </div>
             <div class="layui-inline">
-                <button class="layui-btn" onclick="addBan()">禁言</button>
-                <button class="layui-btn layui-btn-warm" onclick="deletePost()">删除</button>
+                <button class="layui-btn" onclick="banConfirm()">禁言</button>
+                <button class="layui-btn layui-btn-warm" onclick="deleteConfirm()">删除</button>
             </div>
         </form>
     </div>
@@ -126,10 +129,8 @@
         <table class="layui-table">
             <thead>
             <tr>
-                <th>序号</th>
                 <th>用户id</th>
                 <th>贴子内容</th>
-                <th>手机号</th>
             </tr>
             </thead>
         </table>
